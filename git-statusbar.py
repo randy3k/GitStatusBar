@@ -72,11 +72,24 @@ class GitManager:
 
 
 class GitStatusBarHandler(sublime_plugin.EventListener):
-    def on_activated(self, view):
+    def update_status_bar(self, view):
         if view.is_scratch() or view.settings().get('is_widget'):
             return
-        view.erase_status("git-statusbar")
         gm = GitManager(view)
         branch = gm.branch()
         if branch:
             view.set_status("git-statusbar", gm.formatted_branch())
+        else:
+            view.erase_status("git-statusbar")
+
+    def on_new(self, view):
+        self.update_status_bar(view)
+
+    def on_load(self, view):
+        self.update_status_bar(view)
+
+    def on_activated(self, view):
+        self.update_status_bar(view)
+
+    def on_post_save(self, view):
+        self.update_status_bar(view)
