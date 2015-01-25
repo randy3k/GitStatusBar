@@ -8,6 +8,8 @@ import re
 class GitManager:
     def __init__(self, view):
         self.view = view
+        s = sublime.load_settings("git-statusbar.sublime-settings")
+        self.git = s.get("git", "git")
 
     def run_git_command(self, cmd, cwd=None):
         plat = sublime.platform()
@@ -16,7 +18,7 @@ class GitManager:
         if cwd:
             if type(cmd) == str:
                 cmd = [cmd]
-            cmd = ["git"] + cmd
+            cmd = [self.git] + cmd
             if plat == "windows":
                 # make sure console does not come up
                 startupinfo = subprocess.STARTUPINFO()
