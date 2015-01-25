@@ -10,11 +10,22 @@ class GitManager:
         self.view = view
 
     def run_git_command(self, cmd, cwd=None):
+        plat = sublime.platform()
         if not cwd:
             cwd = self.getcwd()
         if cwd:
-            cmd = ["/usr/local/bin/git"] + cmd
-            p = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, cwd=cwd)
+            cmd = ["git"] + cmd
+            if plat == "windows":
+                # make sure console does not come up
+                startupinfo = subprocess.STARTUPINFO()
+                startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+                p = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                                     cwd=cwd, startupinfo=startupinfo)
+            else:
+                my_env = os.environ.copy()
+                my_env["PATH"] = "/usr/local/bin/:" + my_env["PATH"]
+                p = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                                     cwd=cwd, env=my_env)
             p.wait()
             stdoutdata, _ = p.communicate()
             return stdoutdata.decode('utf-8')
