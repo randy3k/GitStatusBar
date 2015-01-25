@@ -1,7 +1,7 @@
 Git-StatusBar: Simpler Git StatusBar
 ====
 
-[sublime-text-git](https://github.com/kemayo/sublime-text-git) does an amazing great job in integrating `git` commands into Sublime Text. However, it is showing to much information in the status bar. This plugin minimizes the amount of text by only showing important information.
+[sublime-text-git](https://github.com/kemayo/sublime-text-git) does an amazing job in integrating `git` commands into Sublime Text. However, it is showing too much information in the status bar. This plugin minimizes the amount of text by only showing important information.
 
 Screenshot:
 
@@ -16,5 +16,4 @@ You can disable the `sublime-text-git` status bar by adding the following settin
     "statusbar_branch": false,
     "statusbar_status": false
 }
-
 ```
