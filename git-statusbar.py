@@ -25,14 +25,18 @@ class GitManager:
         if f:
             cwd = os.path.dirname(f)
         if not cwd:
-            pd = self.view.window().project_data()
-            if pd:
-                cwd = pd.get("folders")[0].get("path")
+            window = self.view.window()
+            if window:
+                pd = window.project_data()
+                if pd:
+                    cwd = pd.get("folders")[0].get("path")
         return cwd
 
     def branch(self):
-        ret = self.run_git_command(["symbolic-ref", "HEAD", "--short"]).strip()
-        if not ret:
+        ret = self.run_git_command(["symbolic-ref", "HEAD", "--short"])
+        if ret:
+            ret = ret.strip()
+        else:
             output = self.run_git_command(["branch"])
             if output:
                 m = re.search(r"\* *\(detached from (.*?)\)", output, flags=re.MULTILINE)
@@ -99,3 +103,7 @@ class GitStatusBarHandler(sublime_plugin.EventListener):
 
     def on_post_save(self, view):
         self.update_status_bar(view)
+
+    def on_window_command(self, window, command_name, args):
+        if command_name == "hide_panel":
+            self.update_status_bar(window.active_view())
