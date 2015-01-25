@@ -74,7 +74,6 @@ class GitManager:
                 ret = ret + "+%d" % a
             if b:
                 ret = ret + "-%d" % b
-            ret = "(%s)" % ret
         return ret
 
 
