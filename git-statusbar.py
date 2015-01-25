@@ -14,6 +14,8 @@ class GitManager:
         if not cwd:
             cwd = self.getcwd()
         if cwd:
+            if type(cmd) == str:
+                cmd = [cmd]
             cmd = ["git"] + cmd
             if plat == "windows":
                 # make sure console does not come up
@@ -48,14 +50,14 @@ class GitManager:
         if ret:
             ret = ret.strip()
         else:
-            output = self.run_git_command(["branch"])
+            output = self.run_git_command("branch")
             if output:
                 m = re.search(r"\* *\(detached from (.*?)\)", output, flags=re.MULTILINE)
                 ret = m.group(1)
         return ret
 
     def is_dirty(self):
-        output = self.run_git_command(["status"])
+        output = self.run_git_command("status")
         ret = "working directory clean" not in output
         return ret
 
