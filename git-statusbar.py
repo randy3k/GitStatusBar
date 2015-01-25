@@ -8,10 +8,11 @@ import re
 class GitManager:
     def __init__(self, view):
         self.view = view
-        s = sublime.load_settings("git-statusbar.sublime-settings")
+        s = sublime.load_settings("Git-StatusBar.sublime-settings")
         self.git = s.get("git", "git")
+        self.prefix = s.get("prefix")
 
-    def run_git_command(self, cmd, cwd=None):
+    def run_git(self, cmd, cwd=None):
         plat = sublime.platform()
         if not cwd:
             cwd = self.getcwd()
@@ -48,18 +49,18 @@ class GitManager:
         return cwd
 
     def branch(self):
-        ret = self.run_git_command(["symbolic-ref", "HEAD", "--short"])
+        ret = self.run_git(["symbolic-ref", "HEAD", "--short"])
         if ret:
             ret = ret.strip()
         else:
-            output = self.run_git_command("branch")
+            output = self.run_git("branch")
             if output:
                 m = re.search(r"\* *\(detached from (.*?)\)", output, flags=re.MULTILINE)
                 ret = m.group(1)
         return ret
 
     def is_dirty(self):
-        output = self.run_git_command("status")
+        output = self.run_git("status")
         ret = "working directory clean" not in output
         return ret
 
@@ -67,7 +68,7 @@ class GitManager:
         branch = self.branch()
         a, b = 0, 0
         if branch:
-            output = self.run_git_command(["branch", "-v"])
+            output = self.run_git(["branch", "-v"])
             if output:
                 m = re.search(r"\* .*?\[ahead ([0-9])+\]", output, flags=re.MULTILINE)
                 if m:
@@ -77,7 +78,7 @@ class GitManager:
                     b = int(m.group(1))
         return (a, b)
 
-    def formatted_branch(self):
+    def badge(self):
         branch = self.branch()
         ret = None
         if branch:
@@ -89,7 +90,7 @@ class GitManager:
                 ret = ret + "+%d" % a
             if b:
                 ret = ret + "-%d" % b
-        return ret
+        return self.prefix + ret
 
 
 class GitStatusBarHandler(sublime_plugin.EventListener):
@@ -97,9 +98,9 @@ class GitStatusBarHandler(sublime_plugin.EventListener):
         if view.is_scratch() or view.settings().get('is_widget'):
             return
         gm = GitManager(view)
-        branch = gm.branch()
-        if branch:
-            view.set_status("git-statusbar", gm.formatted_branch())
+        badge = gm.badge()
+        if badge:
+            view.set_status("git-statusbar", badge)
         else:
             view.erase_status("git-statusbar")
 
