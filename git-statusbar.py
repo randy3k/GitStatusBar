@@ -10,7 +10,7 @@ class GitManager:
         self.view = view
         s = sublime.load_settings("Git-StatusBar.sublime-settings")
         self.git = s.get("git", "git")
-        self.prefix = s.get("prefix")
+        self.prefix = s.get("prefix", "")
 
     def run_git(self, cmd, cwd=None):
         plat = sublime.platform()
@@ -80,7 +80,7 @@ class GitManager:
 
     def badge(self):
         branch = self.branch()
-        ret = None
+        ret = ""
         if branch:
             ret = branch
             if self.is_dirty():
