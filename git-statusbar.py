@@ -80,16 +80,16 @@ class GitManager:
 
     def badge(self):
         branch = self.branch()
-        ret = ""
-        if branch:
-            ret = branch
-            if self.is_dirty():
-                ret = ret + "*"
-            a, b = self.unpushed_info()
-            if a:
-                ret = ret + "-%d" % a
-            if b:
-                ret = ret + "+%d" % b
+        if not branch:
+            return ""
+        ret = branch
+        if self.is_dirty():
+            ret = ret + "*"
+        a, b = self.unpushed_info()
+        if a:
+            ret = ret + "-%d" % a
+        if b:
+            ret = ret + "+%d" % b
         return self.prefix + ret
 
 
