@@ -20,7 +20,10 @@ class GitManager:
             return stdoutdata.decode('utf-8')
 
     def getcwd(self):
-        cwd = os.path.dirname(self.view.file_name())
+        f = self.view.file_name()
+        cwd = None
+        if f:
+            cwd = os.path.dirname(f)
         if not cwd:
             pd = self.view.window().project_data()
             if pd:
