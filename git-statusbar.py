@@ -91,5 +91,8 @@ class GitStatusBarHandler(sublime_plugin.EventListener):
     def on_activated(self, view):
         self.update_status_bar(view)
 
+    def on_deactivated(self, view):
+        self.update_status_bar(view)
+
     def on_post_save(self, view):
         self.update_status_bar(view)
