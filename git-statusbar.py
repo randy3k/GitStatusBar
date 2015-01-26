@@ -119,6 +119,9 @@ class GitStatusBarHandler(sublime_plugin.EventListener):
     def on_post_save(self, view):
         self.update_status_bar(view)
 
+    def on_pre_close(self, view):
+        self.update_status_bar(view)
+
     def on_window_command(self, window, command_name, args):
         if command_name == "hide_panel":
             self.update_status_bar(window.active_view())
