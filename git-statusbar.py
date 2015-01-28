@@ -56,7 +56,8 @@ class GitManager:
             output = self.run_git("branch")
             if output:
                 m = re.search(r"\* *\(detached from (.*?)\)", output, flags=re.MULTILINE)
-                ret = m.group(1)
+                if m:
+                    ret = m.group(1)
         return ret
 
     def is_dirty(self):
