@@ -16,11 +16,4 @@ Git-StatusBar: A more compact Git StatusBar
 | -n     | the current branch is n commits behind the remote branch |
 
 ### Note
-You can disable the `sublime-text-git` status bar by adding the following settings in `Git.sublime-settings`
-
-```
-{
-    "statusbar_branch": false,
-    "statusbar_status": false
-}
-```
+The `sublime-text-git` status bar will be disabled automatically by this plugin.

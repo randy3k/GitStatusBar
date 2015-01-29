@@ -5,6 +5,27 @@ import os
 import re
 
 
+def plugin_loaded():
+    s = sublime.load_settings("Git.sublime-settings")
+    if s.get("statusbar_branch"):
+        s.set("statusbar_branch", False)
+        sublime.save_settings("Git.sublime-settings")
+    if s.get("statusbar_status"):
+        s.set("statusbar_status", False)
+        sublime.save_settings("Git.sublime-settings")
+
+
+def plugin_unloaded():
+    """reset sublime-text-git status bar"""
+    s = sublime.load_settings("Git.sublime-settings")
+    if s.get("statusbar_branch") is False:
+        s.set("statusbar_branch", True)
+        sublime.save_settings("Git.sublime-settings")
+    if s.get("statusbar_status") is False:
+        s.set("statusbar_status", True)
+        sublime.save_settings("Git.sublime-settings")
+
+
 class GitManager:
     def __init__(self, view):
         self.view = view
