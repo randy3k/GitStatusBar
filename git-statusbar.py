@@ -83,6 +83,8 @@ class GitManager:
 
     def is_dirty(self):
         output = self.run_git("status")
+        if not output:
+            return False
         ret = "working directory clean" not in output
         return ret
 
