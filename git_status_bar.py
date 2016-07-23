@@ -13,6 +13,10 @@ def plugin_loaded():
     if s.get("statusbar_status"):
         s.set("statusbar_status", False)
         sublime.save_settings("Git.sublime-settings")
+    ofile = os.path.join(sublime.packages_path(), "User", "Git-StatusBar.sublime-settings")
+    nfile = os.path.join(sublime.packages_path(), "User", "GitStatusBar.sublime-settings")
+    if os.path.exists(ofile):
+        os.rename(ofile, nfile)
 
 
 def plugin_unloaded():
@@ -29,7 +33,7 @@ def plugin_unloaded():
 class GitManager:
     def __init__(self, view):
         self.view = view
-        s = sublime.load_settings("Git-StatusBar.sublime-settings")
+        s = sublime.load_settings("GitStatusBar.sublime-settings")
         self.git = s.get("git", "git")
         self.prefix = s.get("prefix", "")
 

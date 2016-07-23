@@ -12,20 +12,20 @@
                 "children":
                 [
                     {
-                        "caption": "Git-StatusBar",
+                        "caption": "GitStatusBar",
                         "children":
                         [
                             {
                                 "command": "open_file", "args":
                                 {
-                                    "file": "${packages}/Git-StatusBar/Git-StatusBar.sublime-settings"
+                                    "file": "${packages}/GitStatusBar/GitStatusBar.sublime-settings"
                                 },
                                 "caption": "Settings – Default"
                             },
                             {
                                 "command": "open_file", "args":
                                 {
-                                    "file": "${packages}/User/Git-StatusBar.sublime-settings"
+                                    "file": "${packages}/User/GitStatusBar.sublime-settings"
                                 },
                                 "caption": "Settings – User"
                             }
