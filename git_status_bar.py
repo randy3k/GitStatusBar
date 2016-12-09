@@ -89,8 +89,11 @@ class GitManager:
         output = self.run_git("status")
         if not output:
             return False
-        ret = "working directory clean" not in output
-        return ret
+        ret = re.search(r"working (tree|directory) clean", output)
+        if ret:
+            return False
+        else:
+            return True
 
     def unpushed_info(self):
         branch = self.branch()
