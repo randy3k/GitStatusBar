@@ -129,7 +129,7 @@ class GitStatusBarHandler(sublime_plugin.EventListener):
         sublime.set_timeout_async(lambda: self._update_status_bar(view))
 
     def _update_status_bar(self, view):
-        if view.is_scratch() or view.settings().get('is_widget'):
+        if not view or view.is_scratch() or view.settings().get('is_widget'):
             return
         gm = GitManager(view)
         badge = gm.badge()
